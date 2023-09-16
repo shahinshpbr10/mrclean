@@ -19,9 +19,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     'Car Cleaing'
   ];
   final List<String> imageHeadings = [
-    'Office Cleaning',
-    'House Cleaning',
-    'Car Cleaing'
+    'Keep your workspace clean and professional with our comprehensive office cleaning services.Experience a clean, productive workspace. Contact us today!',
+    'Are you tired of spending your precious free time cleaning your home? Let us take the burden off your shoulders with our top-notch house cleaning services. Our team of experienced and trusted cleaners is dedicated to making your home sparkle and shine',
+    'Experience a clean, productive workspace. Contact us today!.Revitalize your ride with our expert car cleaning services.Drive in style with a sparkling clean car. Book your appointment now!'
   ];
 
   @override
@@ -54,32 +54,32 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             children: [
               for (int i = 0; i < descriptions.length; i++)
                 AnimatedContainer(
-                  duration: Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 300),
                   height: 8,
                   width: i == _currentPage ? 24 : 8,
-                  margin: EdgeInsets.symmetric(horizontal: 4),
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
                   decoration: BoxDecoration(
-                    color: i == _currentPage ? Colors.blue : Colors.grey,
+                    color: i == _currentPage ? Colors.deepPurple : Colors.grey,
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
-                margin: EdgeInsets.only(right: 10),
+                margin: const EdgeInsets.only(right: 10),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: mainTextcolor),
                 child: TextButton(
                   onPressed: () {
                     Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (_) => HomePage()));
+                        MaterialPageRoute(builder: (_) => const HomePage()));
                   },
                   child: const Text('Skip',
                       style: TextStyle(
@@ -88,7 +88,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           )
         ],
@@ -112,15 +112,28 @@ class OnboardingPage extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Lottie.asset(imageAsset, width: 400, height: 400),
-        SizedBox(height: 10),
+        Center(child: Lottie.asset(imageAsset, width: 400, height: 400)),
+        const SizedBox(height: 10),
         Text(
           description,
+          textAlign: TextAlign.start,
           style: GoogleFonts.montserrat(
               fontSize: 25, color: mainTextcolor, fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
         ),
-        Text(imageHeading)
+        const SizedBox(
+          height: 10,
+        ),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(right: 20, left: 20),
+            child: Text(
+              imageHeading,
+              style: const TextStyle(
+                  color: mainTextcolor, fontSize: 15, wordSpacing: 1),
+              textAlign: TextAlign.left,
+            ),
+          ),
+        )
       ],
     );
   }
