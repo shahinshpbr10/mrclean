@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-
+import 'package:mrclean/pages/home_page.dart';
 
 import 'package:mrclean/pages/onboarding_page.dart';
 import 'package:mrclean/utils/color.dart';
@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void _navigateToNextPage() {
     Timer(_splashDuration, () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) =>  OnboardingScreen()),
+        MaterialPageRoute(builder: (_) => HomePage()),
       );
     });
   }

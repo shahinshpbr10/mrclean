@@ -1,140 +1,118 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
 import 'package:mrclean/pages/home_page.dart';
 import 'package:mrclean/utils/color.dart';
+import 'package:mrclean/widgets/indro_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
 class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({super.key});
+
   @override
-  _OnboardingScreenState createState() => _OnboardingScreenState();
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
-  final List<String> descriptions = [
-    'Office Cleaning',
-    'House Cleaning',
-    'Car Cleaing'
-  ];
-  final List<String> imageHeadings = [
-    'Keep your workspace clean and professional with our comprehensive office cleaning services.Experience a clean, productive workspace. Contact us today!',
-    'Are you tired of spending your precious free time cleaning your home? Let us take the burden off your shoulders with our top-notch house cleaning services. Our team of experienced and trusted cleaners is dedicated to making your home sparkle and shine',
-    'Experience a clean, productive workspace. Contact us today!.Revitalize your ride with our expert car cleaning services.Drive in style with a sparkling clean car. Book your appointment now!'
-  ];
+  final controller = PageController();
+  bool isLastPage = false;
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundcolor,
-      body: Column(
-        children: [
-          Expanded(
-            child: PageView.builder(
-              controller: _pageController,
-              itemCount: descriptions.length,
-              onPageChanged: (int page) {
-                setState(() {
-                  _currentPage = page;
-                });
-              },
-              itemBuilder: (context, index) {
-                return OnboardingPage(
-                  imageHeading: imageHeadings[index],
-                  description: descriptions[index],
-                  imageAsset:
-                      'assets/onboardingimage$index.json', // Replace with your image assets
-                );
-              },
+      body: Container(
+        color: backgroundcolor,
+        padding: const EdgeInsets.only(bottom: 80),
+        child: PageView(
+          controller: controller,
+          onPageChanged: (index) {
+            setState(() => isLastPage = index == 2);
+          },
+          children: [
+            buildPage(
+              imageUrl: 'assets/onboardingimage0.json',
+              title: 'Home Cleaning',
+              subtitle:
+                  'Are you tired of spending your precious free time cleaning your home? Let us take the burden off your shoulders with our top-notch house cleaning services. Our team of experienced and trusted cleaners is dedicated to making your home sparkle and shine',
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              for (int i = 0; i < descriptions.length; i++)
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  height: 8,
-                  width: i == _currentPage ? 24 : 8,
-                  margin: const EdgeInsets.symmetric(horizontal: 4),
-                  decoration: BoxDecoration(
-                    color: i == _currentPage ? Colors.deepPurple : Colors.grey,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-            ],
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(right: 10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: mainTextcolor),
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (_) => const HomePage()));
-                  },
-                  child: const Text('Skip',
-                      style: TextStyle(
-                          color: backgroundcolor, fontWeight: FontWeight.bold)),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          )
-        ],
+            buildPage(
+              imageUrl: 'assets/onboardingimage1.json',
+              title: "Office Cleaning",
+              subtitle:
+                  'Keep your workspace clean and professional with our comprehensive office cleaning services.Experience a clean, productive workspace. Contact us today!',
+            ),
+            buildPage(
+                imageUrl: 'assets/onboardingimage2.json',
+                title: "Car Cleaning",
+                subtitle:
+                    "Revitalize your ride with our expert car cleaning services.Drive in style with a sparkling clean car. Book your appointment now!")
+          ],
+        ),
       ),
-    );
-  }
-}
-
-class OnboardingPage extends StatelessWidget {
-  final String description;
-  final String imageHeading;
-  final String imageAsset;
-
-  OnboardingPage(
-      {required this.description,
-      required this.imageAsset,
-      required this.imageHeading});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(child: Lottie.asset(imageAsset, width: 400, height: 400)),
-        const SizedBox(height: 10),
-        Text(
-          description,
-          textAlign: TextAlign.start,
-          style: GoogleFonts.montserrat(
-              fontSize: 25, color: mainTextcolor, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.only(right: 20, left: 20),
-            child: Text(
-              imageHeading,
-              style: const TextStyle(
-                  color: mainTextcolor, fontSize: 15, wordSpacing: 1),
-              textAlign: TextAlign.left,
+      bottomSheet: isLastPage
+          ? Expanded(
+              child: TextButton(
+                  style: TextButton.styleFrom(
+                      foregroundColor: const Color.fromARGB(255, 39, 47, 125),
+                      backgroundColor: backgroundcolor,
+                      minimumSize: const Size.fromHeight(80)),
+                  onPressed: () async {
+                    final prefs = await SharedPreferences.getInstance();
+                    prefs.setBool('showHome', true);
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const HomePage()));
+                  },
+                  child: const Text(
+                    'Get Strated',
+                  )),
+            )
+          : Container(
+              color: backgroundcolor,
+              height: 80,
+              padding: const EdgeInsets.symmetric(horizontal: 80),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: () => controller.jumpToPage(2),
+                    child: Text(
+                      'Skip',
+                      style: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.bold,
+                          color: const Color.fromARGB(255, 39, 47, 125),
+                          fontSize: 16),
+                    ),
+                  ),
+                  Center(
+                    child: SmoothPageIndicator(
+                      controller: controller,
+                      count: 3,
+                      onDotClicked: (index) => controller.animateToPage(index,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeIn),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () => controller.nextPage(
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut),
+                    child: Text(
+                      'Next',
+                      style: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.bold,
+                          color: const Color.fromARGB(255, 39, 47, 125),
+                          fontSize: 16),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        )
-      ],
     );
   }
 }
