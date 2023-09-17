@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "363051354125",
+    "project_id": "mrclean-843dd",
+    "storage_bucket": "mrclean-843dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:363051354125:android:e6ecb29a153e7dd4d4ad44",
+        "android_client_info": {
+          "package_name": "com.example.mrclean"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYjR4EHm2c4BSVAHEbeMUlk8VEwmmRAWk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

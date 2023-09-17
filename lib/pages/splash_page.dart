@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:mrclean/pages/auth_selection_page.dart';
 import 'package:mrclean/pages/home_page.dart';
 
 import 'package:mrclean/pages/onboarding_page.dart';
@@ -23,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void _navigateToNextPage() {
     Timer(_splashDuration, () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => HomePage()),
+        MaterialPageRoute(builder: (_) => AuthPage()),
       );
     });
   }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mrclean/pages/auth_selection_page.dart';
 import 'package:mrclean/pages/home_page.dart';
+import 'package:mrclean/pages/login_page.dart';
+import 'package:mrclean/pages/signup_page.dart';
 import 'package:mrclean/utils/color.dart';
 import 'package:mrclean/widgets/indro_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({super.key});
+  const OnboardingScreen({Key? key}) : super(key: key);
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
@@ -17,10 +20,45 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final controller = PageController();
   bool isLastPage = false;
+
   @override
   void dispose() {
     controller.dispose();
     super.dispose();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final showHome = prefs.getBool('showHome') ?? false;
+    final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+    if (showHome) {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const HomePage(),
+      ));
+    } else if (isLoggedIn) {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const HomePage(),
+      ));
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  void _navigateToAuthSelection() {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => AuthPage(),
+    ));
+  }
+
+  void _navigateToSignup() {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const SignupPage(),
+    ));
   }
 
   @override
@@ -48,29 +86,32 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   'Keep your workspace clean and professional with our comprehensive office cleaning services.Experience a clean, productive workspace. Contact us today!',
             ),
             buildPage(
-                imageUrl: 'assets/onboardingimage2.json',
-                title: "Car Cleaning",
-                subtitle:
-                    "Revitalize your ride with our expert car cleaning services.Drive in style with a sparkling clean car. Book your appointment now!")
+              imageUrl: 'assets/onboardingimage2.json',
+              title: "Car Cleaning",
+              subtitle:
+                  "Revitalize your ride with our expert car cleaning services.Drive in style with a sparkling clean car. Book your appointment now!",
+            )
           ],
         ),
       ),
       bottomSheet: isLastPage
-          ? Expanded(
+          ? Container(
+              width: double.infinity, // Add this line
               child: TextButton(
-                  style: TextButton.styleFrom(
-                      foregroundColor: const Color.fromARGB(255, 39, 47, 125),
-                      backgroundColor: backgroundcolor,
-                      minimumSize: const Size.fromHeight(80)),
-                  onPressed: () async {
-                    final prefs = await SharedPreferences.getInstance();
-                    prefs.setBool('showHome', true);
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const HomePage()));
-                  },
-                  child: const Text(
-                    'Get Strated',
-                  )),
+                style: TextButton.styleFrom(
+                  foregroundColor: const Color.fromARGB(255, 39, 47, 125),
+                  backgroundColor: backgroundcolor,
+                  minimumSize: const Size.fromHeight(80),
+                ),
+                onPressed: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  prefs.setBool('showHome', true);
+                  _navigateToAuthSelection();
+                },
+                child: const Text(
+                  'Get Started',
+                ),
+              ),
             )
           : Container(
               color: backgroundcolor,
@@ -80,13 +121,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
-                    onPressed: () => controller.jumpToPage(2),
+                    onPressed: () {
+                      _navigateToAuthSelection();
+                    },
                     child: Text(
                       'Skip',
                       style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.bold,
-                          color: const Color.fromARGB(255, 39, 47, 125),
-                          fontSize: 16),
+                        fontWeight: FontWeight.bold,
+                        color: const Color.fromARGB(255, 39, 47, 125),
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                   Center(
@@ -100,14 +144,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                   TextButton(
                     onPressed: () => controller.nextPage(
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut),
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.easeInOut,
+                    ),
                     child: Text(
                       'Next',
                       style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.bold,
-                          color: const Color.fromARGB(255, 39, 47, 125),
-                          fontSize: 16),
+                        fontWeight: FontWeight.bold,
+                        color: const Color.fromARGB(255, 39, 47, 125),
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ],
