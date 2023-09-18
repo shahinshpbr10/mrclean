@@ -57,7 +57,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void _navigateToSignup() {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const SignupPage(),
+      builder: (context) =>  SignupPage(),
     ));
   }
 

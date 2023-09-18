@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void _navigateToNextPage() {
     Timer(_splashDuration, () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => AuthPage()),
+        MaterialPageRoute(builder: (_) =>const AuthPage()),
       );
     });
   }

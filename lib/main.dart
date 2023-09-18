@@ -20,6 +20,7 @@ Future main() async {
   runApp(MyApp(showHome: showHome));
 }
 
+// ignore: must_be_immutable
 class MyApp extends StatelessWidget {
   bool showHome;
 

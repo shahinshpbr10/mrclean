@@ -2,10 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mrclean/pages/signup_page.dart';
 import 'package:mrclean/utils/color.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  final void Function()? onPressed;
+  const LoginPage({Key? key, this.onPressed}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -18,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _password = TextEditingController();
   bool _obscureText = true;
 
-  Future<void> signInWithEmailAndPassword() async {
+  signInWithEmailAndPassword() async {
     try {
       setState(() {
         isLoading = true;
@@ -32,17 +34,17 @@ class _LoginPageState extends State<LoginPage> {
         isLoading = false;
       });
       if (e.code == 'user-not-found') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+        return ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
             backgroundColor: Colors.deepPurple,
-            content: const Text('No user found for that email.'),
+            content: Text('No user found for that email.'),
           ),
         );
       } else if (e.code == 'wrong-password') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+        return ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
             backgroundColor: Colors.deepPurple,
-            content: const Text('Wrong password provided for that user.'),
+            content: Text('Wrong password provided for that user.'),
           ),
         );
       }
@@ -177,7 +179,9 @@ class _LoginPageState extends State<LoginPage> {
                                   backgroundColor: Colors.deepPurple),
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                  signInWithEmailAndPassword();
+                                  setState(() {
+                                    signInWithEmailAndPassword();
+                                  });
                                 }
                               },
                               child: const Text('Login'),
@@ -196,7 +200,10 @@ class _LoginPageState extends State<LoginPage> {
                             style: GoogleFonts.montserrat(color: mainTextcolor),
                           ),
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => SignupPage()));
+                            },
                             child: Text(
                               'Create a Account!',
                               style: GoogleFonts.montserrat(
