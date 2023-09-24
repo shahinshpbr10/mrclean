@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     HomeTab(), // Replace with your home page widget
     JobTab(),
     NotificationTab(), // Replace with your notification page widget
-    SettingsTab(), // Replace with your settings page widget
+    SettingsScreen(), // Replace with your settings page widget
   ];
   @override
   Widget build(BuildContext context) {
