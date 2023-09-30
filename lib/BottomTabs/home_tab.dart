@@ -62,15 +62,31 @@ class _HomeTabState extends State<HomeTab> {
               SizedBox(
                 height: 40,
               ),
-              ServiceCard(
-                  imagePath: 'assets/officecleaning.jpg',
-                  labelText: "Office Cleaning"),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => WorkAddingScreen()),
+                  );
+                },
+                child: ServiceCard(
+                    imagePath: 'assets/officecleaning.jpg',
+                    labelText: "Office Cleaning"),
+              ),
               SizedBox(
                 height: 40,
               ),
-              ServiceCard(
-                  imagePath: 'assets/carcleaning.png',
-                  labelText: "Car Cleaning"),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => WorkAddingScreen()),
+                  );
+                },
+                child: ServiceCard(
+                    imagePath: 'assets/carcleaning.png',
+                    labelText: "Car Cleaning"),
+              ),
               SizedBox(
                 height: 40,
               ),

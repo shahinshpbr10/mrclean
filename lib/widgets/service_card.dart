@@ -25,7 +25,7 @@ class ServiceCard extends StatelessWidget {
         children: [
           Image.asset(
             imagePath,
-            width: 120,
+            width: 110,
             height: 120,
           ),
           SizedBox(

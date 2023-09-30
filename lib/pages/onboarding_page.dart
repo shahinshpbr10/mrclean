@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrclean/pages/auth_selection_page.dart';
 import 'package:mrclean/pages/home_page.dart';
-import 'package:mrclean/pages/login_page.dart';
 import 'package:mrclean/pages/signup_page.dart';
 import 'package:mrclean/utils/color.dart';
 import 'package:mrclean/widgets/indro_page.dart';
@@ -57,7 +56,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void _navigateToSignup() {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) =>  SignupPage(),
+      builder: (context) => SignupPage(),
     ));
   }
 

@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrclean/utils/color.dart';
@@ -8,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mrclean/utils/utils.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+  const SettingsScreen({Key? key}) : super(key: key);
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -34,44 +32,51 @@ class _SettingsScreenState extends State<SettingsScreen> {
             flex: 1,
             child: Container(),
           ),
-          Stack(children: [
-            _image != null
-                ? CircleAvatar(
-                    radius: 64,
-                    backgroundImage: MemoryImage(_image!),
-                  )
-                : const CircleAvatar(
-                    backgroundColor: Colors.deepPurple,
-                    radius: 64,
-                    backgroundImage: AssetImage('assets/usericon.png'),
-                  ),
-            Positioned(
+          Stack(
+            children: [
+              _image != null
+                  ? CircleAvatar(
+                      radius: 64,
+                      backgroundImage: MemoryImage(_image!),
+                    )
+                  : const CircleAvatar(
+                      backgroundColor: Colors.deepPurple,
+                      radius: 64,
+                      backgroundImage: AssetImage('assets/usericon.png'),
+                    ),
+              Positioned(
                 bottom: -10,
                 left: 80,
                 child: IconButton(
-                    onPressed: () {
-                      selectImage();
-                    },
-                    icon: const Icon(
-                      Icons.add_a_photo,
-                    )))
-          ]),
+                  onPressed: () {
+                    selectImage();
+                  },
+                  icon: const Icon(
+                    Icons.add_a_photo,
+                  ),
+                ),
+              ),
+            ],
+          ),
           Expanded(
             child: Center(
               child: ListTile(
-                leading: Icon(Icons.account_circle_outlined,
-                    color: Colors.deepPurple),
+                leading: Icon(
+                  Icons.account_circle_outlined,
+                  color: Colors.deepPurple,
+                ),
                 title: Text(
                   'Account',
                   style: GoogleFonts.montserrat(color: Colors.deepPurple),
                 ),
                 onTap: () {
                   // Navigate to the Account settings screen
+                  Navigator.of(context).pushNamed('/account');
                 },
               ),
             ),
           ),
-          Divider(), // Divider to separate the sections
+          Divider(),
           Expanded(
             child: Center(
               child: ListTile(
@@ -80,6 +85,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     style: GoogleFonts.montserrat(color: Colors.deepPurple)),
                 onTap: () {
                   // Navigate to the Notifications settings screen
+                  Navigator.of(context).pushNamed('/notifications');
                 },
               ),
             ),
@@ -93,6 +99,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     style: GoogleFonts.montserrat(color: Colors.deepPurple)),
                 onTap: () {
                   // Navigate to the Privacy settings screen
+                  Navigator.of(context).pushNamed('/privacy');
                 },
               ),
             ),
@@ -106,6 +113,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     style: GoogleFonts.montserrat(color: Colors.deepPurple)),
                 onTap: () {
                   // Navigate to the Terms and Agreements screen
+                  Navigator.of(context).pushNamed('/terms');
                 },
               ),
             ),
@@ -119,6 +127,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     style: GoogleFonts.montserrat(color: Colors.deepPurple)),
                 onTap: () {
                   // Navigate to the Feedback screen
+                  Navigator.of(context).pushNamed('/feedback');
                 },
               ),
             ),
